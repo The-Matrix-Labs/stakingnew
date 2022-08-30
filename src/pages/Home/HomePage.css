@@ -1,0 +1,163 @@
+body,
+#root {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.HomePage{
+  background-color: #112037;
+}
+
+.home__top{
+  background: #0B1322;
+  display: flex;
+  justify-content: center;
+}
+
+.home__topSub{
+  height: 20%;
+  display: flex;
+  margin: 3rem 0px;
+  width: 80%;
+}
+
+.home__topLeft{
+display: flex;
+flex-direction: column;
+  width: 75%;
+}
+
+.home__topRight{
+  width: 25%;
+}
+
+.home__topTitle{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 2rem;
+line-height: 51px;
+color: #FFFFFF;
+}
+
+.home__topAmount{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+font-size: 4rem;
+line-height: 72px;
+color: #0177FB;
+}
+
+.home__topDesc{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 400;
+font-size: 1.5rem;
+line-height: 30px;
+color: #FFFFFF;
+}
+
+.home__topSearch{
+  display: flex;
+  width: 70%;
+  margin-top: 4rem;
+  justify-content: space-between;
+}
+
+.home__topSearchBox{
+  display: flex;
+  border: 3px solid #3B3C4E;
+border-radius: 7px;
+padding: .5rem 1.5rem;
+width: 70%;
+align-items: baseline;
+}
+
+
+.home__topSearchIcon{
+  padding-right:1rem ;
+}
+
+.home__topInput{
+  width: 100%;
+  color: white;
+  background:transparent;
+  border: 0px solid #000;
+  font-size: 1rem;
+}
+
+
+.home__topSearchInput{
+width: 100%;
+height: 100%;
+}
+
+.home__topSearchButton{
+background: #0177FB;
+border-radius: 7px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 19px;
+padding: 1.5rem 3.5rem;
+color: #FFFFFF;
+}
+
+
+
+
+
+@media screen and (max-width: 900px) {
+
+  .home__topSub{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home__topLeft{
+    width:100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home__topRight{
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home__topImg{
+    display: flex;
+    justify-content: center;
+  }
+
+  .home__topSearch{
+    width: 100%;
+  }
+
+}
+
+@media screen and (max-width: 530px) {
+
+  .home__topSearchButton{
+    padding: 1rem 1.5rem;
+    text-align: center;
+  }
+ 
+}
+
+@media screen and (max-width: 430px) {
+
+  .home__topSearchButton{
+    padding: 1rem 1.5rem;
+    text-align: center;
+  }
+ 
+}
+
+
+@media screen and (min-width:1440px){
+
+  
+}
