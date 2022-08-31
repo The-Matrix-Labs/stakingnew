@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import sandclock from '../../images/sandclock.png';
 import search from '../../images/search.png'
 import './HomePage.css';
+import Modal from './Modal'
 
 import Card from './Card';
 
 function HomePage() {
 
   const [Active, setActive] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
 
   return (
     <div className='HomePage'>
@@ -52,11 +55,11 @@ function HomePage() {
           <div className='home__bottomGrid'>
             {Active ?
               <>
-            <Card Active={ Active} />
-            <Card Active={Active} />
-            <Card Active={ Active} />
-            <Card Active={ Active} />
-            <Card Active={ Active} />
+                <Card Active={Active} setIsOpen={setIsOpen} />
+            <Card Active={Active} setIsOpen={setIsOpen} />
+            <Card Active={ Active} setIsOpen={setIsOpen} />
+            <Card Active={ Active} setIsOpen={setIsOpen} />
+            <Card Active={ Active} setIsOpen={setIsOpen} />
               </>
               :
               <>
@@ -69,6 +72,8 @@ function HomePage() {
 
         </div>
       </div>
+      {isOpen && <Modal setIsOpen={setIsOpen} Active={ Active } />}
+      
     </div>
   )
 }

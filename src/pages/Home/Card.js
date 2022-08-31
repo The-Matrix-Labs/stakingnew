@@ -5,8 +5,8 @@ import bitcoin from '../../images/bitcoin.png'
 import light from '../../images/light.png'
 import gift from '../../images/gift.png'
 
-function Card({ Active }) {
-    console.log('state in card',Active)
+function Card({ Active ,setIsOpen}) {
+
   return (
     <div className='home__bottomCard'>
               <div className='home__cardHeader'>
@@ -48,7 +48,7 @@ function Card({ Active }) {
                   <div className='home__descValue'>$0 <img className='home__descGift' src={gift} alt='gift'/> </div>
                 </div>
               </div>
-              <div className={'home__cardButton '+(Active ? '' : 'home--ended')}>
+              <div className={'home__cardButton '+(Active ? '' : 'home--ended')} onClick={() => setIsOpen(true)}>
               { Active ? "Stake" : "Ended"}
               </div>
             </div>

@@ -6,6 +6,7 @@ body,
 
 .HomePage{
   background-color: #112037;
+  position: relative;
 }
 
 .home__top{
