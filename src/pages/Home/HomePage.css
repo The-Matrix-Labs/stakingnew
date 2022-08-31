@@ -24,6 +24,7 @@ body,
 .home__topLeft{
 display: flex;
 flex-direction: column;
+justify-content: center;
   width: 75%;
 }
 
@@ -35,7 +36,7 @@ flex-direction: column;
   font-family: 'Poppins';
 font-style: normal;
 font-weight: 700;
-font-size: 2rem;
+font-size: 3rem;
 line-height: 51px;
 color: #FFFFFF;
 }
@@ -106,6 +107,65 @@ color: #FFFFFF;
 }
 
 
+.home__bottom{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.home__bottomSub{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding-top: 2rem;
+}
+
+.home__bottomTop{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.home__bottomMenu{
+  display: flex;
+  width: 22%;
+}
+
+.home__bottomOption{
+  font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 24px;
+padding: .5rem 3rem;
+color: #FFFFFF;
+background: #0B1322;
+border-radius: 9px;
+}
+
+.home--active{
+  background: #FFFFFF;
+  color: #3F8EF7;
+}
+
+.home__bottomGrid{
+    margin-top: 4rem;
+    display: flex;
+    flex: 3;
+    flex-wrap: wrap;
+    
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -144,6 +204,10 @@ color: #FFFFFF;
     padding: 1rem 1.5rem;
     text-align: center;
   }
+
+  .home__topTitle{
+    font-size: 2.5rem;
+  }
  
 }
 
@@ -152,6 +216,14 @@ color: #FFFFFF;
   .home__topSearchButton{
     padding: 1rem 1.5rem;
     text-align: center;
+  }
+
+  .home__topTitle{
+    font-size: 2rem;
+  }
+
+  .home__topAmount{
+    font-size: 3rem;
   }
  
 }
