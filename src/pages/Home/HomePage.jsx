@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import sandclock from '../../images/sandclock.png';
 import search from '../../images/search.png'
 import './HomePage.css';
+import CloseIcon from '@mui/icons-material/Close';
 import Modal from './Modal'
 
 import Card from './Card';

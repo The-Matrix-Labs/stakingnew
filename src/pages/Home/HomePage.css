@@ -73,7 +73,7 @@ color: #FFFFFF;
 border-radius: 7px;
 padding: .5rem 1.5rem;
 width: 70%;
-align-items: baseline;
+align-items: center;
 }
 
 
@@ -83,10 +83,11 @@ align-items: baseline;
 
 .home__topInput{
   width: 100%;
+  height: 100%;
   color: white;
   background:transparent;
   border: 0px solid #000;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 
@@ -156,7 +157,6 @@ border-radius: 9px;
     display: flex;
     flex: 3;
     flex-wrap: wrap;
-    
 }
 
 
@@ -197,6 +197,17 @@ border-radius: 9px;
     width: 100%;
   }
 
+  .home__bottomGrid{
+    justify-content: center;
+  }
+
+  .home__bottomCard{
+    margin-right: 0rem !important;
+  }
+
+  .home__topInput{
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 530px) {
@@ -209,6 +220,8 @@ border-radius: 9px;
   .home__topTitle{
     font-size: 2.5rem;
   }
+
+  
  
 }
 
@@ -226,11 +239,7 @@ border-radius: 9px;
   .home__topAmount{
     font-size: 3rem;
   }
+
+
  
-}
-
-
-@media screen and (min-width:1440px){
-
-  
 }
