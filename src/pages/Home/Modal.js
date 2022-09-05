@@ -61,10 +61,10 @@ function Modal({setIsOpen}) {
                   <label for="cars" className='modal__selectLabel'>USDC</label>
                   <select className='modal__selectDrop' id="cars" name="cars">
                     <option></option>
-                    <option value="volvo">Volvo</option>
+                    {/* <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="fiat">Fiat</option>
-                    <option value="audi">Audi</option>
+                    <option value="audi">Audi</option> */}
                   </select>
                 </form>
               </div>

@@ -106,6 +106,7 @@ font-size: 16px;
 line-height: 19px;
 padding: 1.5rem 3.5rem;
 color: #FFFFFF;
+  cursor: pointer;
 }
 
 
@@ -133,6 +134,8 @@ color: #FFFFFF;
 .home__bottomMenu{
   display: flex;
   width: 22%;
+    cursor: pointer;
+
 }
 
 .home__bottomOption{
