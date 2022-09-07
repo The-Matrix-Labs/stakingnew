@@ -4,6 +4,48 @@ import './Navbar.css';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 
+
+// Rainbowkit setup 
+// ======================>
+
+// import '@rainbow-me/rainbowkit/styles.css'; // throws failed to compile, use below import instead
+import '@rainbow-me/rainbowkit/dist/index.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import {
+  chain,
+  configureChains,
+  createClient,
+  WagmiConfig,
+} from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+const { chains, provider } = configureChains(
+    [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+    [
+      alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+      publicProvider()
+    ]
+  );
+  
+  const { connectors } = getDefaultWallets({
+    appName: 'My RainbowKit App',
+    chains
+  });
+  
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors,
+    provider
+  })
+
+// ======================>
+
+
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
 const [active, setActive] = useState("1");
@@ -78,12 +120,23 @@ const [active, setActive] = useState("1");
         </ul>
         {/* hamburger menu code below */}
       </div>
-       <div className="button">
-        <button className="contact-btn">connect wallet</button>
-        <div className="ham">
-          <GiHamburgerMenu onClick={() => setOpen(!isOpen)} />
-        </div>
-      </div>
+      
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+
+          <div className="button contact-btn">
+
+            {/* <button className="contact-btn">connect wallet</button> */}            
+            <ConnectButton /> 
+            
+            <div className="ham">
+              <GiHamburgerMenu onClick={() => setOpen(!isOpen)} />
+            </div>
+          </div>
+
+      </RainbowKitProvider>
+    </WagmiConfig>
+
     </nav>
   );
 };

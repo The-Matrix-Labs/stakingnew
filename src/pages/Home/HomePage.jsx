@@ -56,17 +56,13 @@ function HomePage() {
           <div className='home__bottomGrid'>
             {Active ?
               <>
+                {/* Have to set loop here to display as many Cards as there are Pools i.e poolInfo.length */}
                 <Card Active={Active} setIsOpen={setIsOpen} />
-            <Card Active={Active} setIsOpen={setIsOpen} />
-            <Card Active={ Active} setIsOpen={setIsOpen} />
-            <Card Active={ Active} setIsOpen={setIsOpen} />
-            <Card Active={ Active} setIsOpen={setIsOpen} />
               </>
               :
               <>
+              {/* Have to set loop here to display as many Cards as there are Pools i.e poolInfo.length */}
                 <Card Active={Active} />
-                <Card Active={Active} />
-                <Card Active={ Active} />
               </>
             }
           </div>
