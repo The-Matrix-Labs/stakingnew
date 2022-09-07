@@ -272,6 +272,7 @@ function Modal({setIsOpen}) {
     
       async function unstakeTokens () {
         try{
+          console.log("Button is connected to function")
           // let tx = await staking.unstakeTokens(poolId);
           // let reciept = await tx.wait();
           // console.log ("Unstake Tx Receipt: ", reciept);
@@ -288,6 +289,7 @@ function Modal({setIsOpen}) {
     
       async function emergencyWithdraw () {
         try{
+          console.log("Button is connected to function")
           // const _staking = new ethers.Contract(
           //   value.stakingAddress,
           //   stakingAbi,
@@ -472,10 +474,10 @@ function Modal({setIsOpen}) {
               </div>
 
               <div className='modal__buttonBar'>
-                <div className='modal__Button modal__us'>
+                <div className='modal__Button modal__us' onClick={unstakeTokens}>
                   Unstake
                 </div>
-                <div className='modal__Button modal__ew'>
+                <div className='modal__Button modal__ew' onClick={emergencyWithdraw}>
                   Emergency Withdraw
                 </div>
               </div>
