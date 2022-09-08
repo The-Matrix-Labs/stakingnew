@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import logo from "../../images/logo.png";
 import './Navbar.css';
+import { ethers } from 'ethers';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import {useSigner, useProvider} from 'wagmi'
+import tokenAbi from '../../tokenAbi.json'
+import stakingAbi from '../../stakeAbi.json'
+import value from '../../value.json'
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
@@ -11,6 +17,20 @@ const [active, setActive] = useState("1");
   const handleClick = (event) => {
     setActive(event.target.id);
   };
+
+  const { data: signer, isError, isLoading } = useSigner()
+  const provider = useProvider();
+
+  const staking = new ethers.Contract(
+    value.stakingAddress,
+    stakingAbi,
+    signer,
+  )
+  const token = new ethers.Contract(
+    value.stakingToken,
+    tokenAbi,
+    signer,
+  )
 
   return (
     <nav className="main-nav">
@@ -79,7 +99,8 @@ const [active, setActive] = useState("1");
         {/* hamburger menu code below */}
       </div>
        <div className="button">
-        <button className="contact-btn">connect wallet</button>
+        {/* <button className="contact-btn">connect wallet</button> */}
+        <ConnectButton/>
         <div className="ham">
           <GiHamburgerMenu onClick={() => setOpen(!isOpen)} />
         </div>

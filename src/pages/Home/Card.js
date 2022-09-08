@@ -5,7 +5,7 @@ import bitcoin from '../../images/bitcoin.png'
 import light from '../../images/light.png'
 import gift from '../../images/gift.png'
 
-function Card({ Active ,setIsOpen}) {
+function Card({ Active ,setIsOpen,onChangeInput,stakeToken}) {
 
   return (
     <div className='home__bottomCard'>

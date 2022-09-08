@@ -1,14 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Modal.css'
+import { ethers } from 'ethers';
 import light from '../../images/light.png'
 import electro from '../../images/electro.png'
 import CloseIcon from '@mui/icons-material/Close';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
-function Modal({setIsOpen}) {
+
+
+function Modal({setIsOpen,onChangeInput,stakeTokens}) {
 
   const [Active, setActive] = useState(true);
   const [perActive,setperActive] = useState("25")
 
+  const [istokenapproved, settokenapproved] = useState(false)
+
+  const [apy, setApy] = useState(0);
+      
   return (
     <div className='modal__background'>
       <div className='modal__card'>
@@ -58,7 +66,7 @@ function Modal({setIsOpen}) {
             <div className='modal__descBar'>
               <div className='modal__selectBox'>
                 <form>
-                  <label for="cars" className='modal__selectLabel'>USDC</label>
+                  <label htmlFor="cars" className='modal__selectLabel'>USDC</label>
                   <select className='modal__selectDrop' id="cars" name="cars">
                     <option></option>
                     {/* <option value="volvo">Volvo</option>
@@ -69,7 +77,14 @@ function Modal({setIsOpen}) {
                 </form>
               </div>
               <div className='modal__value'>
-                0
+              <input 
+              type = "text" 
+              placeholder="Input amount" 
+              className= 'modal__input'
+              // value = {addressInput}
+              onChange = {onChangeInput}
+              id = "stake"
+            />
               </div>
             </div>
             <div className='modal__descOption'>
@@ -81,7 +96,7 @@ function Modal({setIsOpen}) {
             className={'modal__cardButton ' + (Active
             ? ''
             : 'modal--ended')}
-            onClick={() => setIsOpen(true)}>
+            onClick={stakeTokens}>
             {Active
               ? "Stake"
               : "Ended"}
