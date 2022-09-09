@@ -13,8 +13,7 @@ import Modal from './Modal'
 import Progress from 'react-progressbar';
 
 function Card({ 
-  Active ,
-  onChangeInput,
+  Active,
   stakeTokens,
   currentPoolSize,
   emergencyFees,
@@ -68,9 +67,6 @@ function Card({
         // getPoolArray()
       }
     }
-
-
-    console.log("key",index);
 
     useEffect( ()=>{
       refreshData(signer)
@@ -179,6 +175,24 @@ function Card({
       else setUnlockTime("Not staked yet");
     }catch(err){
       console.log("User error", err);
+    }
+  }
+
+    const onChangeInput = ({target}) => {
+    switch (target.id) {
+      case "stake":
+        setAmount(target.value)
+          console.log("Amount:", amount);
+        break;
+
+      // case "unstake":
+      //   setWithdrawInput(target.value);
+      //   break;
+    
+      // case "viewStruct":
+      //   setstakeDetails(target.value);
+      //   break;
+    default:
     }
   }
 
@@ -298,7 +312,7 @@ function Card({
               setIsOpen={setIsOpen} 
               tokenAddress={tokenAddress}
               // Active={ Active } 
-              // onChangeInput ={onChangeInput} 
+              onChangeInput ={onChangeInput} 
               reward={reward} 
               claimableTokens = {claimableTokens} 
               locktime ={locktime} 

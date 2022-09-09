@@ -112,41 +112,6 @@ function HomePage() {
       console.log(err.message);
     }
   }
-
-  // async function getUserInfo (poolId){
-
-  //   try{
-  //     let _userInfo = await staking.userInfo(poolId, signer.getAddress());
-  //     console.log ("my stake token amount: ", ethers.utils.formatEther(_userInfo.amount.toString()));
-  //     setMystakeBalance(ethers.utils.formatEther(_userInfo.amount.toString()));
-  //   }catch(err){
-  //     console.log("User error", err);
-  //   }
-  // }
-
-
-
-
-
-  // const onChangeInput = ({target}) => {
-  //   switch (target.id) {
-  //     case "stake":
-  //       setAmount(target.value)
-  //         console.log("Amount:", amount);
-  //       break;
-
-  //     // case "unstake":
-  //     //   setWithdrawInput(target.value);
-  //     //   break;
-    
-  //     // case "viewStruct":
-  //     //   setstakeDetails(target.value);
-  //     //   break;
-  //   default:
-  //   }
-  // }
-
-
   
   async function getPoolLength() {
     const length = await staking.poolLength()
