@@ -11,13 +11,15 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 function Modal({
   setIsOpen,
   onChangeInput,
-  stakeTokens,
   reward,
   claimableTokens,
   locktime,
   unlockTime,
   tokenAddress,
-  myTokenBalance
+  myTokenBalance,
+  stakeTokens,
+  unstakeTokens,
+  emergencyWithdraw
   }) {
 
   const [Active, setActive] = useState(true);
@@ -161,10 +163,10 @@ function Modal({
               </div>
 
               <div className='modal__buttonBar'>
-                <div className='modal__Button modal__us'>
+                <div className='modal__Button modal__us' onClick={unstakeTokens}>
                   Unstake
                 </div>
-                <div className='modal__Button modal__ew'>
+                <div className='modal__Button modal__ew' onClick={emergencyWithdraw}>
                   Emergency Withdraw
                 </div>
               </div>

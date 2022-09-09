@@ -10,7 +10,7 @@ import value from '../../value.json'
 import {useSigner, useProvider} from 'wagmi'
 import { ethers } from 'ethers';
 import Modal from './Modal'
-// import Progress from 'react-progressbar';
+import Progress from 'react-progressbar';
 
 function Card({ 
   Active ,
@@ -36,6 +36,9 @@ function Card({
     const [unlockTime, setUnlockTime] = useState(1);
     const [myTokenBalance, setMyTokenBalance] = useState(0)
     const [walletAddressInfo, setWalletAddressInfo] = useState()
+    const [istokenapproved, settokenapproved] = useState(false)
+    const [amount, setAmount] = useState(Number)
+    const [errors, setError] = useState()
 
     const staking = new ethers.Contract(
       value.stakingAddress,
@@ -95,20 +98,59 @@ function Card({
       }
     }
 
-      // const checkApproved = async() => {
-  //   let userAddress = await signer.getAddress()
-  //   const isApproved = await token.allowance(userAddress, value.stakingAddress);
-  //   const totaltokenapproved = isApproved.toString()
-  //   if(totaltokenapproved.length > 2){
-  //     console.log("approved", totaltokenapproved);
-  //     settokenapproved(true)
-  //   }
-  //   else{
-  //     console.log("Not Approved",totaltokenapproved);
-  //     settokenapproved(false)
+      const checkApproved = async() => {
+        let userAddress = await signer.getAddress()
+        const isApproved = await token.allowance(userAddress, value.stakingAddress);
+        const totaltokenapproved = isApproved.toString()
+        if(totaltokenapproved.length > 2){
+          console.log("approved", totaltokenapproved);
+          settokenapproved(true)
+        }
+        else{
+          console.log("Not Approved",totaltokenapproved);
+          settokenapproved(false)
 
-  //   }
-  // }
+        }
+      }
+
+      async function unstakeTokens () {
+        try{
+          let tx = await staking.unstakeTokens(index);
+          let reciept = await tx.wait();
+          console.log ("Unstake Tx Receipt: ", reciept);
+          refreshData(signer)
+        }catch (error) {
+          console.log (error);
+          try {
+            setError(error.error.data.message)
+          } catch {
+            setError("Something went wrong, please try again!")
+          }
+        }
+      }
+    
+      async function emergencyWithdraw () {
+        try{
+          const _staking = new ethers.Contract(
+            value.stakingAddress,
+            stakingAbi,
+            signer,
+          )
+          
+          let tx = await _staking.emergencyWithdraw(index);
+          let reciept = await tx.wait();
+          console.log ("Emergency Withdraw Tx Receipt: ", reciept);
+          refreshData(signer)
+        }catch (error) {
+          console.log ("eeoeoeo", error.toString());
+          try {
+            setError(error.error.data.message)
+          } catch {
+            setError("Something went wrong, please try again!")
+          }
+
+        }
+      }
 
     async function getTokenBalance(){
     let userAddress = await signer.getAddress()
@@ -140,7 +182,7 @@ function Card({
     }
   }
 
-    async function getClaimableTokens () {
+  async function getClaimableTokens () {
     try {
       let userAddress = await signer.getAddress();
       let _claimableTokens = await staking.claimableRewards(index, userAddress);
@@ -150,6 +192,56 @@ function Card({
       console.log("Claimable error", error);
     }
   }
+
+  async function stakeTokens () {
+    if(walletAddressInfo){
+      try{
+        if(amount === undefined){
+          alert("Enter Amount First")
+        }
+        else{
+          await approve()
+          let _amount = ethers.utils.parseEther(amount);
+          // console.log (_amount)
+          let tx = await staking.stakeTokens(index, _amount);
+          let reciept = await tx.wait();
+          console.log ("Stake Tx Receipt: ", reciept);
+          refreshData(signer)
+        }              
+      }catch (error) {
+        console.log (error);
+        try {
+          setError(error.error.data.message)
+        } catch {
+          setError("Something went wrong, please try again!")
+        }
+      }
+    }
+    else{
+      alert('Your Wallet Is Not Witelisted For Staking')
+    }
+  }
+
+  async function approve() {
+    if(!istokenapproved){
+      console.log('Not Approved')
+      try{
+        let _amount = ethers.utils.parseEther("10000000000000000000");
+        let tx = await token.approve(value.stakingAddress, _amount);
+        let reciept = await tx.wait();
+        console.log ("Approve Tx Receipt: ", reciept);
+      }catch (error) {
+        console.log (error);
+        // alert(error.data.message);
+      }
+    }
+    else{
+      console.log('already approved')
+    }
+    
+  }
+
+  const maxpoolConverted = ethers.utils.formatEther(maxPoolSize.toString())
 
   console.log("mystsakebalance",mystakebalance);
 
@@ -172,7 +264,7 @@ function Card({
                   APR
                 </div>
               </div>
-              {/* <Progress color="#339CEE" completed={(parseFloat(poolsize)* 100)/parseFloat(maxpool)} height={30} data-label={`${(parseFloat(poolsize)* 100)/parseFloat(maxpool)}% Pool Filled`} /> */}
+              <Progress color="#000" completed={(parseFloat(poolsize)* 100)/parseFloat(maxpoolConverted)} height={30} data-label={`${(parseFloat(poolsize)* 100)/parseFloat(maxpoolConverted)}% Pool Filled`} />
               <div className='home__cardDesc'>
                 <div className='home__descOption'>
                   <div className='home__descTitle'>Reward Token</div>
@@ -212,6 +304,9 @@ function Card({
               locktime ={locktime} 
               unlockTime={unlockTime}
               myTokenBalance={myTokenBalance}
+              stakeTokens = {stakeTokens}
+              unstakeToken = {unstakeTokens}
+              emergencyWithdraw = {emergencyWithdraw}
               // unlockTime={unlockTime}
               />}
             </div>

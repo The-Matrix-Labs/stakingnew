@@ -23,9 +23,9 @@ function HomePage() {
 
   const [myaddress, setMyaddress] = useState()
   // const [poolId, setPoolId] = useState(1)
-  const [errors, setError] = useState()
-  const [amount, setAmount] = useState(Number)
-  const [istokenapproved, settokenapproved] = useState(false)
+
+
+
   const [poolInfo, setPoolInfo] = useState()
   const [userInfo, setUserInfo] = useState()
   const [walletAddressInfo, setWalletAddressInfo] = useState()
@@ -126,71 +126,25 @@ function HomePage() {
 
 
 
-  async function approve() {
-    if(!istokenapproved){
-      console.log('Not Approved')
-      try{
-        let _amount = ethers.utils.parseEther("10000000000000000000");
-        let tx = await token.approve(value.stakingAddress, _amount);
-        let reciept = await tx.wait();
-        console.log ("Approve Tx Receipt: ", reciept);
-      }catch (error) {
-        console.log (error);
-        // alert(error.data.message);
-      }
-    }
-    else{
-      console.log('already approved')
-    }
-    
-  }
 
-  // async function stakeTokens () {
-  //   // if(walletAddressInfo){
-  //     try{
-  //       if(amount === undefined){
-  //         alert("Enter Amount First")
-  //       }
-  //       else{
-  //         await approve()
-  //         let _amount = ethers.utils.parseEther(amount);
-  //         // console.log (_amount)
-  //         let tx = await staking.stakeTokens(poolId, _amount);
-  //         let reciept = await tx.wait();
-  //         console.log ("Stake Tx Receipt: ", reciept);
-  //         refreshData(signer)
-  //       }              
-  //     }catch (error) {
-  //       console.log (error);
-  //       try {
-  //         setError(error.error.data.message)
-  //       } catch {
-  //         setError("Something went wrong, please try again!")
-  //       }
-  //     }
-  //   // }
-  //   // else{
-  //   //   alert('Your Wallet Is Not Witelisted For Staking')
-  //   // }
+
+  // const onChangeInput = ({target}) => {
+  //   switch (target.id) {
+  //     case "stake":
+  //       setAmount(target.value)
+  //         console.log("Amount:", amount);
+  //       break;
+
+  //     // case "unstake":
+  //     //   setWithdrawInput(target.value);
+  //     //   break;
+    
+  //     // case "viewStruct":
+  //     //   setstakeDetails(target.value);
+  //     //   break;
+  //   default:
+  //   }
   // }
-
-  const onChangeInput = ({target}) => {
-    switch (target.id) {
-      case "stake":
-        setAmount(target.value)
-          console.log("Amount:", amount);
-        break;
-
-      // case "unstake":
-      //   setWithdrawInput(target.value);
-      //   break;
-    
-      // case "viewStruct":
-      //   setstakeDetails(target.value);
-      //   break;
-    default:
-    }
-  }
 
 
   
