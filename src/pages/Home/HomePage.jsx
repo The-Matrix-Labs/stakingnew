@@ -12,7 +12,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import tokenAbi from '../../tokenAbi.json'
 import stakingAbi from '../../stakeAbi.json'
 import value from '../../value.json'
-import Modal from './Modal'
+
 import {useSigner, useProvider} from 'wagmi'
 import { ethers } from 'ethers';
 import Card from './Card';
@@ -20,7 +20,7 @@ import Card from './Card';
 function HomePage() {
   const { data: signer, isError, isLoading } = useSigner()
   const [Active, setActive] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+
   const [myaddress, setMyaddress] = useState()
   // const [poolId, setPoolId] = useState(1)
   const [errors, setError] = useState()
@@ -30,12 +30,12 @@ function HomePage() {
   const [userInfo, setUserInfo] = useState()
   const [walletAddressInfo, setWalletAddressInfo] = useState()
   const [locktime, setLockTime] = useState(1)
-  const [unlockTime, setUnlockTime] = useState(1);
+
   const [emergencyfee, setEmergencyfee] = useState()
   const [poolsize, setPoolSize] = useState()
   const [maxpool, setMaxPool] = useState()
   const [reward, setReward] = useState()
-  const [myTokenBalance, setMyTokenBalance] = useState(0)
+
   const [buttonactive1, setButtonactive1] = useState("activebutton")
   const [buttonactive2, setButtonactive2] = useState("")
   const [buttonactive3, setButtonactive3] = useState("")
@@ -124,73 +124,7 @@ function HomePage() {
   //   }
   // }
 
-  // async function getClaimableTokens () {
-  //   try {
-  //     let userAddress = await signer.getAddress();
-  //     let _claimableTokens = await staking.claimableRewards(poolId, userAddress);
-  //     console.log("Claimable Tokens: ", _claimableTokens.toString());
-  //     setClaimableTokens(ethers.utils.formatUnits(_claimableTokens, 6).toString());
-  //   }catch (error){
-  //     console.log("Claimable error", error);
-  //   }
-  // }
 
-  // async function getUserLockTime (){
-  //   try{
-  //     let userAddress = await signer.getAddress()
-  //     let myunlocktime = await staking.getUserLockTime(poolId, userAddress);
-  //     let _wallet = await signer.getAddress();      
-  //     let _userInfo = await staking.userInfo( poolId, _wallet);
-  //     let _stakedAmount = ethers.utils.formatEther(_userInfo.amount.toString());
-
-  //     if (_stakedAmount == 0) {
-  //       setUnlockTime("Not staked yet");
-  //       return;
-  //     }
-  //     let _timestamp = parseInt(myunlocktime.toString())* 1000;
-  //     let _time = new Date(_timestamp);
-  //     console.log ("Unlock Time: ", _time);
-  //     if (_timestamp >0) setUnlockTime(_time.toString());
-  //     else setUnlockTime("Not staked yet");
-  //   }catch(err){
-  //     console.log("User error", err);
-  //   }
-  // }
-
-  // async function getTokenBalance(){
-  //   let userAddress = await signer.getAddress()
-  //   const tokenbalance = await token.balanceOf(userAddress);
-  //   const tokenbalanceConverted = ethers.utils.formatEther(tokenbalance.toString())
-  //   console.log("My Token Balance -",ethers.utils.formatEther(tokenbalance.toString()))
-  //   setMyTokenBalance(Math.floor(tokenbalanceConverted))
-  // }
-
-
-  // const checkApproved = async() => {
-  //   let userAddress = await signer.getAddress()
-  //   const isApproved = await token.allowance(userAddress, value.stakingAddress);
-  //   const totaltokenapproved = isApproved.toString()
-  //   if(totaltokenapproved.length > 2){
-  //     console.log("approved", totaltokenapproved);
-  //     settokenapproved(true)
-  //   }
-  //   else{
-  //     console.log("Not Approved",totaltokenapproved);
-  //     settokenapproved(false)
-
-  //   }
-  // }
-
-  // async function getWhiteListAddresses (){
-  //   try{   
-  //     let userAddress = await signer.getAddress()
-  //     let _wlInfo = await staking.whitelistedAddress( poolId, userAddress);
-  //     console.log ("Whitelist Info: ", _wlInfo);
-  //     setWalletAddressInfo(_wlInfo);
-  //   }catch(err){
-  //     console.log("User error", err);
-  //   }
-  // }
 
   async function approve() {
     if(!istokenapproved){
@@ -314,7 +248,7 @@ function HomePage() {
           <div className='home__bottomGrid'>
           
             {Active ?
-            poolDetails.filter(pool => pool.poolActive).map(pool => <Card Active={Active} setIsOpen={setIsOpen} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance} {...pool}/>)
+            poolDetails.filter(pool => pool.poolActive).map(pool => <Card Active={Active} claimableTokens = {claimableTokens} locktime ={locktime} poolsize={poolsize} {...pool}/>)
             //   <>
                 
             // <Card Active={Active} setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
@@ -323,7 +257,7 @@ function HomePage() {
             // <Card Active={ Active} approve={approve}  setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
             //   </>
               :
-              poolDetails.filter(pool => !pool.poolActive).map((pool, index)=> <Card index={index} Active={Active} setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance} {...pool}/>)
+              poolDetails.filter(pool => !pool.poolActive).map((pool, index)=> <Card key={index} index={index} Active={Active} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} poolsize={poolsize} {...pool}/>)
               // <>
               //   <Card Active={Active} />
               //   <Card Active={Active} />
@@ -334,9 +268,7 @@ function HomePage() {
           
 
         </div>
-      </div>
-      {isOpen && <Modal setIsOpen={setIsOpen} Active={ Active } onChangeInput ={onChangeInput} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime}/>}
-      
+      </div>    
     </div>
   )
 }

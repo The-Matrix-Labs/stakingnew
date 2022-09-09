@@ -8,7 +8,17 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
 
-function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,locktime,unlockTime}) {
+function Modal({
+  setIsOpen,
+  onChangeInput,
+  stakeTokens,
+  reward,
+  claimableTokens,
+  locktime,
+  unlockTime,
+  tokenAddress,
+  myTokenBalance
+  }) {
 
   const [Active, setActive] = useState(true);
   const [perActive,setperActive] = useState("25")
@@ -45,7 +55,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,lockt
           <div className='modal__cardDesc'>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Reward Token</div>
-              <div className='modal__descValue'>{reward}<img src={light} alt='light'/>
+              <div className='modal__descValue'>{tokenAddress}<img src={light} alt='light'/>
               </div>
             </div>
             <div className='modal__descOption'>
@@ -92,7 +102,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,lockt
             </div>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Lock Period</div>
-              <div className='modal__descValue modal--val'>{locktime}</div>
+              <div className='modal__descValue modal--val'>{locktime.toString()}</div>
             </div>
           </div>
           <div
@@ -115,8 +125,8 @@ function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,lockt
                 </div>
                 <div className='modal__usInfo modal__usVal'>
                 <div className='modal__usOption'><img className='modal__electro' src={electro} alt='light'/>FTR</div>
-                <div className='modal__usOption'>228.28%</div>
-                  <div className='modal__usOption'>5.6746719</div>
+                <div className='modal__usOption'>{((parseInt(reward)* 365)/(locktime* 10)).toFixed(2)}%</div>
+                  <div className='modal__usOption'>{parseFloat(claimableTokens).toFixed(2)}</div>
                 </div>
               </div>
               
@@ -131,7 +141,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,lockt
                 </div>
                 <div className='modal__descOption'>
               <div className='modal__descTitle'>My balance</div>
-              <div className='modal__descValue'>Available :55.67</div>
+              <div className='modal__descValue'>Available :{myTokenBalance}</div>
               </div>
               </div>
 
