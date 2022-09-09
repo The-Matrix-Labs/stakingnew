@@ -35,7 +35,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,lockt
     const [poolActive, setPoolActive] = useState();
     const [lockDays, setLockDays] = useState(1);
     const [emergencyfee, setEmergencyfee] = useState();
-    const [reward, setReward] = useState();
+    // const [reward, setReward] = useState();
     const [maxContribution, setMaxContribution] = useState();
     const [currentPoolsize, setCurrentPoolSize] = useState();
     const [maxPoolsize, setMaxPoolSize] = useState();
