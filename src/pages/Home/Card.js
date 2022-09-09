@@ -35,6 +35,7 @@ function Card({
     const [claimableTokens, setClaimableTokens] = useState(0)
     const [unlockTime, setUnlockTime] = useState(1);
     const [myTokenBalance, setMyTokenBalance] = useState(0)
+    const [walletAddressInfo, setWalletAddressInfo] = useState()
 
     const staking = new ethers.Contract(
       value.stakingAddress,
@@ -47,7 +48,7 @@ function Card({
       tokenAbi,
       signer,
     )
-    
+
     function refreshData (signer) {
       if(signer){
         // signer.getAddress().then((res)=>{setMyaddress(res)})
@@ -56,8 +57,8 @@ function Card({
         getUserLockTime()
         // getUserLockTime()
         // // getPoolInfo()
-        // getTokenBalance()
-        // getWhiteListAddresses()
+        getTokenBalance()
+        getWhiteListAddresses()
         // checkApproved()
         // getClaimableTokens()
         // getPoolLength()
@@ -83,16 +84,16 @@ function Card({
     }
 
 
-      // async function getWhiteListAddresses (){
-    //   try{   
-    //     let userAddress = await signer.getAddress()
-    //     let _wlInfo = await staking.whitelistedAddress( poolId, userAddress);
-    //     console.log ("Whitelist Info: ", _wlInfo);
-    //     setWalletAddressInfo(_wlInfo);
-    //   }catch(err){
-    //     console.log("User error", err);
-    //   }
-    // }
+      async function getWhiteListAddresses (){
+      try{   
+        let userAddress = await signer.getAddress()
+        let _wlInfo = await staking.whitelistedAddress( index, userAddress);
+        console.log ("Whitelist Info: ", _wlInfo);
+        setWalletAddressInfo(_wlInfo);
+      }catch(err){
+        console.log("User error", err);
+      }
+    }
 
       // const checkApproved = async() => {
   //   let userAddress = await signer.getAddress()
