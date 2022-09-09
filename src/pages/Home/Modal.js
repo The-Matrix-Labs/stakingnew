@@ -8,7 +8,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
 
-function Modal({setIsOpen,onChangeInput,stakeTokens}) {
+function Modal({setIsOpen,onChangeInput,stakeTokens,reward,claimableTokens,locktime,unlockTime}) {
 
   const [Active, setActive] = useState(true);
   const [perActive,setperActive] = useState("25")
@@ -45,19 +45,22 @@ function Modal({setIsOpen,onChangeInput,stakeTokens}) {
           <div className='modal__cardDesc'>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Reward Token</div>
-              <div className='modal__descValue'><img src={light} alt='light'/>
+              <div className='modal__descValue'>{reward}<img src={light} alt='light'/>
               </div>
             </div>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>APY</div>
-              <div className='modal__descValue'>38.28%</div>
+              <div className='modal__descValue'>
+              {((parseInt(reward)* 365)/(locktime* 10)).toFixed(2)}%
+              </div>
             </div>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Claimable Rewards</div>
               <div className='modal__descValue'>
-                <span className='modal__val modal--val'>0.0000443 FTR
+                <span className='modal__val modal--val'>
+                {parseFloat(claimableTokens).toFixed(2)}
                 </span>
-                -$0.0022</div>
+                </div>
             </div>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Stake</div>
@@ -89,7 +92,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens}) {
             </div>
             <div className='modal__descOption'>
               <div className='modal__descTitle'>Lock Period</div>
-              <div className='modal__descValue modal--val'>7 Days</div>
+              <div className='modal__descValue modal--val'>{locktime}</div>
             </div>
           </div>
           <div
@@ -124,7 +127,7 @@ function Modal({setIsOpen,onChangeInput,stakeTokens}) {
                 </div>
                 <div className='modal__descOption'>
               <div className='modal__descTitle'>Unlock Date/Time</div>
-              <div className='modal__descValue'>28/09/2022 : 14:00</div>
+              <div className='modal__descValue'>{unlockTime}</div>
                 </div>
                 <div className='modal__descOption'>
               <div className='modal__descTitle'>My balance</div>
