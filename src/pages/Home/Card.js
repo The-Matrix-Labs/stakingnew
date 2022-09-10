@@ -94,7 +94,6 @@ function Card({
       }
     }
 
-
       const checkApproved = async() => {
         let userAddress = await signer.getAddress()
         const isApproved = await token.allowance(userAddress, value.stakingAddress);
@@ -301,22 +300,9 @@ function Card({
                   <div className='home__descValue'>{mystakebalance}</div>
                 </div>
                 <div className='home__descOption'>
-                  <div className='home__descTitle'>Max Contrubution</div>
-                  <div className='home__descValue'>{Number(maxContribution).toLocaleString('en-US')}</div>
-                </div>
-                <div className='home__descOption'>
-                  <div className='home__descTitle'>Lock days</div>
-                  <div className='home__descValue'>{Number(lockDays)} days</div>
-                </div>
-                <div className='home__descOption'>
                   <div className='home__descTitle'>My Reward</div>
-                  <div className='home__descValue'>${Number(reward)}<img className='home__descGift' src={gift} alt='gift'/> </div>
+                  <div className='home__descValue'>$0 <img className='home__descGift' src={gift} alt='gift'/> </div>
                 </div>
-                <div className='home__descOption'>
-                  <div className='home__descTitle'>Pool Type</div>
-                  <div className='home__descValue'>{poolType.toString()}</div>
-                </div>
-                
               </div>
               <div className={'home__cardButton '+(Active ? '' : 'home--ended')} onClick={() => setIsOpen(true)}>
               { Active ? "Stake" : "Ended"}
