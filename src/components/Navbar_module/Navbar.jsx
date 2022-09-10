@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import logo from "../../images/logo.png";
 import './Navbar.css';
+import { ethers } from 'ethers';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import {useSigner, useProvider} from 'wagmi'
+import tokenAbi from '../../tokenAbi.json'
+import stakingAbi from '../../stakeAbi.json'
+import value from '../../value.json'
 
 
 // Rainbowkit setup 
@@ -22,7 +28,7 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const { chains, provider } = configureChains(
     [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
@@ -53,6 +59,20 @@ const [active, setActive] = useState("1");
   const handleClick = (event) => {
     setActive(event.target.id);
   };
+
+  const { data: signer, isError, isLoading } = useSigner()
+  const provider = useProvider();
+
+  const staking = new ethers.Contract(
+    value.stakingAddress,
+    stakingAbi,
+    signer,
+  )
+  const token = new ethers.Contract(
+    value.stakingToken,
+    tokenAbi,
+    signer,
+  )
 
   return (
     <nav className="main-nav">
@@ -120,23 +140,13 @@ const [active, setActive] = useState("1");
         </ul>
         {/* hamburger menu code below */}
       </div>
-      
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-
-          <div className="button contact-btn">
-
-            {/* <button className="contact-btn">connect wallet</button> */}            
-            <ConnectButton /> 
-            
-            <div className="ham">
-              <GiHamburgerMenu onClick={() => setOpen(!isOpen)} />
-            </div>
-          </div>
-
-      </RainbowKitProvider>
-    </WagmiConfig>
-
+       <div className="button">
+        {/* <button className="contact-btn">connect wallet</button> */}
+        <ConnectButton/>
+        <div className="ham">
+          <GiHamburgerMenu onClick={() => setOpen(!isOpen)} />
+        </div>
+      </div>
     </nav>
   );
 };

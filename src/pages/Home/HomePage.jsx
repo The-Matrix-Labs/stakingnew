@@ -1,17 +1,116 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import sandclock from '../../images/sandclock.png';
 import search from '../../images/search.png'
 import './HomePage.css';
+import "@rainbow-me/rainbowkit/dist/index.css";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import CloseIcon from '@mui/icons-material/Close';
-import Modal from './Modal'
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+import { darkTheme } from "@rainbow-me/rainbowkit";
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import tokenAbi from '../../tokenAbi.json'
+import stakingAbi from '../../stakeAbi.json'
+import value from '../../value.json'
 
+import {useSigner, useProvider} from 'wagmi'
+import { ethers } from 'ethers';
 import Card from './Card';
 
 function HomePage() {
-
+  const { data: signer, isError, isLoading } = useSigner()
   const [Active, setActive] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
 
+  const [myaddress, setMyaddress] = useState()
+  // const [poolId, setPoolId] = useState(1)
+
+
+
+  const [poolInfo, setPoolInfo] = useState()
+  const [userInfo, setUserInfo] = useState()
+  const [walletAddressInfo, setWalletAddressInfo] = useState()
+  const [locktime, setLockTime] = useState(1)
+
+  const [emergencyfee, setEmergencyfee] = useState()
+  const [poolsize, setPoolSize] = useState()
+  const [maxpool, setMaxPool] = useState()
+  const [reward, setReward] = useState()
+
+  const [buttonactive1, setButtonactive1] = useState("activebutton")
+  const [buttonactive2, setButtonactive2] = useState("")
+  const [buttonactive3, setButtonactive3] = useState("")
+  const [buttonactive4, setButtonactive4] = useState("")
+  const [maxtoken, setMaxToken] = useState()
+  const [maxContribution, setMaxContribution] = useState()
+  const [claimableTokens, setClaimableTokens] = useState(0)
+  const [poolLength, setpoolLength] = useState(null)
+  const [poolDetails, setpoolDetails] = useState([])
+  // let poolDetails = []
+
+  const staking = new ethers.Contract(
+    value.stakingAddress,
+    stakingAbi,
+    signer,
+  )
+
+
+  const token = new ethers.Contract(
+    value.stakingToken,
+    tokenAbi,
+    signer,
+  )
+
+  function refreshData (signer) {
+    if(signer){
+      signer.getAddress().then((res)=>{setMyaddress(res)})
+      getPoolArray()
+    }
+  }
+
+  async function getPoolArray(){
+    for (let i = 0; i < await getPoolLength(); i++) {
+      poolDetails[i] = await getPoolInfo(i);
+    }
+    console.log("pool details:", poolDetails);
+  }
+  
+  async function getPoolInfo(poolId){
+    try{
+      let _poolInfo = await staking.poolInfo(poolId);
+      return _poolInfo;
+      // console.log ("Emergency Fees: ", _poolInfo.emergencyFees.toString());
+      // const emergencywithdrawfee = await _poolInfo.emergencyFees.toString()
+      // const currrentpoolsize = await _poolInfo.currentPoolSize.toString()
+      // const maxcontribution = await _poolInfo.maxContribution.toString()
+      // const maxcontributionconverted = ethers.utils.formatEther(maxcontribution)
+      // const currrentpoolsizeConverted = Math.floor(ethers.utils.formatEther(currrentpoolsize))
+      // const maxpool = await _poolInfo.maxPoolSize.toString()
+      // const maxpoolConverted = ethers.utils.formatEther(maxpool)
+      // const currentreward = await _poolInfo.reward.toString()
+      // const lockDays = await _poolInfo.lockDays.toString();
+      // setPoolInfo(_poolInfo);
+      // setEmergencyfee(emergencywithdrawfee);
+      // setPoolSize(currrentpoolsizeConverted);
+      // setReward(currentreward)
+      // setLockTime(lockDays)
+      // setMaxPool(maxpoolConverted)
+      // setMaxContribution(maxcontributionconverted)
+      // console.log("maxpool" + maxpoolConverted)
+      // console.log("current pool" + currrentpoolsizeConverted)
+      // poolDetails.push(_poolInfo) ;
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+  
+  async function getPoolLength() {
+    const length = await staking.poolLength()
+    return (Number(length))
+  }
+  
+  useEffect( ()=>{
+    refreshData(signer)
+  },[signer])
 
   return (
     <div className='HomePage'>
@@ -20,7 +119,7 @@ function HomePage() {
           <div className='home__topLeft'>
             <div className='home__topTitle'>Provide Liquidity, Earn FTR</div>
             <div className='home__topAmount'>$105,786,890.44</div>
-            <div className='home__topDesc'>Total Value Locked(TVL)</div>
+            <div className='home__topDesc'>Total alue Locked(TVL)</div>
             <div className='home__topSearch'>
               <div className='home__topSearchBox'>
                 <div className='home__topSearchIcon'>
@@ -54,23 +153,29 @@ function HomePage() {
             </div>
           </div>
           <div className='home__bottomGrid'>
+          
             {Active ?
-              <>
-                {/* Have to set loop here to display as many Cards as there are Pools i.e poolInfo.length */}
-                <Card Active={Active} setIsOpen={setIsOpen} />
-              </>
+            poolDetails.filter(pool => pool.poolActive).map(pool => <Card Active={Active} claimableTokens = {claimableTokens} locktime ={locktime} poolsize={poolsize} {...pool}/>)
+            //   <>
+                
+            // <Card Active={Active} setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
+            // <Card Active={ Active} setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
+            // <Card Active={ Active} setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
+            // <Card Active={ Active} approve={approve}  setIsOpen={setIsOpen} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} unlockTime={unlockTime} poolsize={poolsize} myTokenBalance={myTokenBalance}/>
+            //   </>
               :
-              <>
-              {/* Have to set loop here to display as many Cards as there are Pools i.e poolInfo.length */}
-                <Card Active={Active} />
-              </>
+              poolDetails.filter(pool => !pool.poolActive).map((pool, index)=> <Card key={index} index={index} Active={Active} reward={reward} claimableTokens = {claimableTokens} locktime ={locktime} poolsize={poolsize} {...pool}/>)
+              // <>
+              //   <Card Active={Active} />
+              //   <Card Active={Active} />
+              //   <Card Active={ Active}/>
+              // </>
             }
           </div>
+          
 
         </div>
-      </div>
-      {isOpen && <Modal setIsOpen={setIsOpen} Active={ Active } />}
-      
+      </div>    
     </div>
   )
 }
