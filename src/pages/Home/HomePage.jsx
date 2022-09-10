@@ -63,14 +63,6 @@ function HomePage() {
   function refreshData (signer) {
     if(signer){
       signer.getAddress().then((res)=>{setMyaddress(res)})
-      // getUserInfo()
-      // getUserLockTime()
-      // // getPoolInfo()
-      // getTokenBalance()
-      // getWhiteListAddresses()
-      // checkApproved()
-      // getClaimableTokens()
-      // getPoolLength()
       getPoolArray()
     }
   }
@@ -79,11 +71,9 @@ function HomePage() {
     for (let i = 0; i < await getPoolLength(); i++) {
       poolDetails[i] = await getPoolInfo(i);
     }
-    console.log("array:",poolDetails);
+    console.log("pool details:", poolDetails);
   }
   
-  console.log("array again:",poolDetails);
-
   async function getPoolInfo(poolId){
     try{
       let _poolInfo = await staking.poolInfo(poolId);
@@ -117,9 +107,7 @@ function HomePage() {
     const length = await staking.poolLength()
     return (Number(length))
   }
-
-  // console.log("length is",getPoolLength());
-
+  
   useEffect( ()=>{
     refreshData(signer)
   },[signer])
